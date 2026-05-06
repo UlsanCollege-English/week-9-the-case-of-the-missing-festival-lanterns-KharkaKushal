@@ -121,9 +121,19 @@ def test_analyze_lanterns_ignores_unexpected_lantern_for_wrong_section():
     assert result["wrong_section_lanterns"] == {}
 
 
-# TODO: Add at least one more meaningful test of your own before submitting.
-# Good options:
-# - all expected lanterns are present and in the correct section
-# - the log is empty but expected_lanterns is not empty
-# - the same lantern appears three times
-# - an expected lantern appears once correctly and once in the wrong section
+def test_analyze_lanterns_log_empty_but_expected_lanterns_exist():
+    expected_lanterns = {"river-dragon", "blue-crane"}
+    lantern_log = []
+    correct_sections = {
+        "river-dragon": "North Gate",
+        "blue-crane": "River Walk",
+    }
+
+    result = analyze_lanterns(expected_lanterns, lantern_log, correct_sections)
+
+    assert result["seen_lanterns"] == set()
+    assert result["missing_lanterns"] == {"river-dragon", "blue-crane"}
+    assert result["unexpected_lanterns"] == set()
+    assert result["duplicate_lanterns"] == set()
+    assert result["count_by_section"] == {}
+    assert result["wrong_section_lanterns"] == {}
