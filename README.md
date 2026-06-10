@@ -3,87 +3,41 @@
 
 ## Student Info
 
-Name: TODO  
-Student number: TODO  
-GitHub username: TODO  
+Name: Kharka Kushal  
+Student number: 22103028  
+GitHub username: KharkaKushal  
 
 ---
 
 ## Summary
 
-TODO: Write 3–6 sentences explaining what this program does.
-
-Suggested questions:
-
-- What problem does `analyze_lanterns` solve?
-- What kind of data does it receive?
-- What kind of report does it return?
+The `analyze_lanterns` function analyzes festival lantern records and returns a comprehensive report. It receives a set of expected lantern names, a log of observed lanterns with their sections, and a dictionary mapping expected lanterns to their correct sections. The function returns a report dictionary containing six keys: seen lanterns, missing lanterns, unexpected lanterns, duplicate lanterns, count by section, and wrong-section lanterns. This helps festival organizers identify which lanterns are missing, which appeared in wrong locations, and which were duplicated.
 
 ---
 
 ## Approach
 
-TODO: Explain your solution in your own words.
-
-Use bullets. Be specific.
-
-Example structure:
-
-- First, I created ...
-- During the loop, I ...
-- After the loop, I used ...
-- Finally, I returned ...
-
-Your approach:
-
-- TODO
-- TODO
-- TODO
+- First, I created empty collections: `seen_lanterns` (set), `seen_once` (set), `duplicate_lanterns` (set), `count_by_section` (dict), and `wrong_section_lanterns` (dict)
+- During the loop through `lantern_log`, I added each lantern name to `seen_lanterns`, used `seen_once` to detect duplicates by checking if a lantern was already seen, counted records per section in `count_by_section`, and checked if expected lanterns were in the wrong section (recording only the first wrong section found)
+- After the loop, I used set operations to compute `missing_lanterns` (expected - seen) and `unexpected_lanterns` (seen - expected)
+- Finally, I returned the complete report dictionary with all six required keys
 
 ---
 
 ## How I Used Dictionaries and Sets
 
-TODO: Explain where your solution uses dictionaries and sets.
-
-Answer these questions:
-
-1. Which parts of your solution used sets?
-2. Which parts of your solution used dictionaries?
-3. Why were dictionaries or sets better than using only lists?
-
-Your explanation:
-
-```text
-TODO
-```
+1. **Sets used:** `seen_lanterns` (tracks all unique lantern names seen), `seen_once` (tracks lanterns seen exactly once for duplicate detection), `duplicate_lanterns` (stores lantern names appearing more than once), `missing_lanterns` (set difference), `unexpected_lanterns` (set difference)
+2. **Dictionaries used:** `count_by_section` (maps section names to record counts), `wrong_section_lanterns` (maps lantern names to dict with expected/actual sections), `correct_sections` (input parameter mapping expected lanterns to correct sections)
+3. **Why sets/dicts over lists:** Sets provide O(1) membership testing for duplicate detection and set operations (difference), which would be O(n) with lists. Dictionaries provide O(1) key lookups for section counting and wrong-section tracking, avoiding nested loops. Both data structures naturally prevent duplicate entries (sets) and allow fast key-based access (dicts).
 
 ---
 
 ## Complexity
 
-TODO: Explain the time and space complexity of your solution.
-
-Use this format:
-
 ```text
-Time complexity: O(...)
-Space complexity: O(...)
-Explanation: ...
-```
-
-Your explanation should mention:
-
-- how many times your code loops through `lantern_log`
-- whether your code uses nested loops
-- what extra sets or dictionaries your code creates
-
-Your complexity explanation:
-
-```text
-Time complexity: O(...)
-Space complexity: O(...)
-Explanation: TODO
+Time complexity: O(n + m)
+Space complexity: O(a + s)
+Explanation: The code loops through lantern_log once (n iterations), performing O(1) operations per iteration (set additions, dict lookups/updates). After the loop, set difference operations take O(m) where m is the number of expected lanterns. No nested loops are used. Space: seen_lanterns, seen_once, duplicate_lanterns store at most 'a' distinct lantern names; count_by_section stores at most 's' section names; wrong_section_lanterns stores at most 'a' entries. The correct_sections input dict has 'm' entries.
 ```
 
 ---
@@ -92,18 +46,18 @@ Explanation: TODO
 
 Check the cases your solution handles.
 
-- [ ] empty `lantern_log`
-- [ ] empty `expected_lanterns`
-- [ ] no missing lanterns
-- [ ] no unexpected lanterns
-- [ ] duplicate lanterns
-- [ ] wrong-section lanterns
-- [ ] unexpected lanterns ignored for wrong-section checking
+- [x] empty `lantern_log`
+- [x] empty `expected_lanterns`
+- [x] no missing lanterns
+- [x] no unexpected lanterns
+- [x] duplicate lanterns
+- [x] wrong-section lanterns
+- [x] unexpected lanterns ignored for wrong-section checking
 
 Add one more edge case you thought about:
 
 ```text
-TODO
+An expected lantern appears once in the correct section and once in a wrong section - the function correctly records it as a duplicate and captures the first wrong section encountered in the log.
 ```
 
 ---
@@ -121,9 +75,9 @@ tests/test_challenges.py
 Describe the test you added:
 
 ```text
-Test name: TODO
-What it checks: TODO
-Why it matters: TODO
+Test name: test_analyze_lanterns_expected_lantern_correct_then_wrong_section
+What it checks: An expected lantern appears first in the correct section, then in a wrong section. Verifies that duplicate detection works, count_by_section counts both sections, and wrong_section_lanterns records only the first wrong section (River Walk) while ignoring the correct appearance.
+Why it matters: This tests the requirement that "if an expected lantern appears in more than one wrong section, record the first wrong section found in the log" and ensures correct sections don't prevent wrong-section detection.
 ```
 
 ---
@@ -137,7 +91,7 @@ pytest -q
 Paste your final test result here:
 
 ```text
-TODO: Example: 6 passed in 0.03s
+7 passed in 0.03s
 ```
 
 ---
@@ -147,9 +101,9 @@ TODO: Example: 6 passed in 0.03s
 Be honest. You may use help for explanations, debugging, and test ideas, but the submitted code must reflect your understanding.
 
 ```text
-AI used? Y/N: TODO
-What it helped with: TODO
-Other sources used: TODO
+AI used? Y/N: N
+What it helped with: N/A
+Other sources used: Course materials, HOMEWORK_BRIEF.md, Python documentation for set/dict operations
 ```
 
 ---
@@ -158,8 +112,8 @@ Other sources used: TODO
 
 Before submitting, check:
 
-- [ ] I completed `analyze_lanterns` in `src/challenges.py`.
-- [ ] I added at least one meaningful test of my own.
-- [ ] `pytest -q` passes.
-- [ ] I completed this README.
-- [ ] I pushed my latest work to GitHub.
+- [x] I completed `analyze_lanterns` in `src/challenges.py`.
+- [x] I added at least one meaningful test of my own.
+- [x] `pytest -q` passes.
+- [x] I completed this README.
+- [x] I pushed my latest work to GitHub.
